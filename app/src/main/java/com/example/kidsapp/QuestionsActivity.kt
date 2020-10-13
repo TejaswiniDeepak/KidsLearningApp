@@ -35,6 +35,9 @@ class QuestionsActivity : AppCompatActivity() {
             R.id.option1 -> {
                 Toast.makeText(this, "one one selected", Toast.LENGTH_SHORT).show()
             }
+            R.id.option2 -> {
+                Toast.makeText(this, "one one selected", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }
