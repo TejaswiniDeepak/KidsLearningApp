@@ -27,7 +27,7 @@
         android:layout_gravity="center"
 
         />
-        <TextView
+        <Button
             android:id="@+id/option1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -36,34 +36,47 @@
             android:text="option 1"
             android:gravity="center"
             android:padding="10dp"
+            android:textColor="@color/black"
+
+            android:background="@color/white"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             />
-        <TextView
+        <Button
             android:id="@+id/option2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25dp"
+            android:textColor="@color/black"
+            android:background="@color/white"
             android:layout_gravity="center"
             android:text="option 1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
             android:padding="10dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             />
-        <TextView
+        <Button
             android:id="@+id/option3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="25dp"
             android:layout_gravity="center"
             android:text="option 1"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:gravity="center"
+            android:background="@color/white"
             android:padding="10dp"
+            android:textColor="@color/black"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             />
-        <TextView
+        <Button
             android:id="@+id/option4"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -71,7 +84,11 @@
             android:layout_gravity="center"
             android:text="option 1"
             android:gravity="center"
+            android:background="@color/white"
             android:padding="10dp"
+            android:textColor="@color/black"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
             android:layout_marginBottom="5dp"
             android:layout_marginTop="10dp"
             android:clickable="true"
@@ -81,6 +98,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="50dp"
             android:textSize="25dp"
             android:text="Submit"
 
