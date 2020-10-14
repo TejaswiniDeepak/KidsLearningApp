@@ -17,6 +17,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
     private var mCorrectOption:Int=1
     private var mSelectedOption:Int=0
     private var QuestionCompleted:Boolean=false
+    private var numberOfCorrectAnswers:Int=0
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -42,30 +43,45 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
             R.id.option1 -> {
                 originalView()
                 optionClicked(option1, 1)
-                Toast.makeText(this, "option1 clicked", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this, "option1 clicked", Toast.LENGTH_SHORT).show()
             }
 
             R.id.option2 -> {
                 originalView()
                 optionClicked(option2, 2)
-                Toast.makeText(this, "option2 clicked", Toast.LENGTH_SHORT).show()
+           //     Toast.makeText(this, "option2 clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.option3 -> {
                 originalView()
                 optionClicked(option3, 3)
-                Toast.makeText(this, "option3 clicked", Toast.LENGTH_SHORT).show()
+             //   Toast.makeText(this, "option3 clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.option4 -> {
                 originalView()
 
                 optionClicked(option4, 4)
-                Toast.makeText(this, "option4 clicked", Toast.LENGTH_SHORT).show()
+               // Toast.makeText(this, "option4 clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.btn_submit -> {
                 if (mSelectedOption == 0) {
+                    originalView()
                     index++
+                    if(index<=mQuestionList!!.size) {
+                        setQuestion()
+                        btn_submit.text="Submit"
+                        Log.i("resu","$numberOfCorrectAnswers")
+                    }
+                    else{
+                        var Result:Int=0
+                        var intent=Intent(this,ResultActivity::class.java)
+                        Constants.CORRECTANSWER=numberOfCorrectAnswers.toString()
+                      // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
+                        startActivity(intent)
+                        finish()
 
-                    setQuestion()
+
+                    }
+
 
                     /**   if (index < mQuestionList!!.size) {
                     index++
@@ -81,6 +97,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
                     else {
                     if (mSelectedOption == mCorrectOption) {
                         correctAnswerView(mSelectedOption)
+                        numberOfCorrectAnswers++
                         QuestionCompleted=true
 
 
@@ -90,13 +107,13 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
                         QuestionCompleted=true
                     }
                     mSelectedOption = 0
-                    if(index<=mQuestionList!!.size)
+                    if(index==mQuestionList!!.size)
                     {
-                        btn_submit.text="next"
+                        btn_submit.text="finish"
                     }
                     else
                     {
-                        btn_submit.text="finish"
+                        btn_submit.text="next"
                     }
                 }
 
