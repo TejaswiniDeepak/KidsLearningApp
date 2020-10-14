@@ -1,8 +1,8 @@
 package com.example.kidsapp
 
 object Constants {
-   const val USERNAME:String="user_name"
-   const val TOTALQUESTIONS:String="total_questions"
+var USERNAME:String="user_name"
+   var TOTALQUESTIONS:String="total_questions"
    var CORRECTANSWER:String="0"
 
    fun getQuestions():ArrayList<Question>

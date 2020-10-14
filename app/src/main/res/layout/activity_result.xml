@@ -1,9 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ResultActivity">
+    tools:context=".ResultActivity"
+    android:orientation="vertical"
+    android:background="@color/lightblue">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="YOU HAVE DONE IT!!!!"
+        android:gravity="center"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="25dp"
+        android:textSize="25dp"
+        android:textColor="@color/darkBlue"
+        />
+    <TextView
+        android:id="@+id/congrulations"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center"
+        android:layout_marginTop="25dp"
+
+
+        android:textSize="25dp"
+        android:textColor="@color/darkBlue"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:text="SCORE "
+        android:textColor="@color/darkBlue"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        />
+    <TextView
+        android:id="@+id/result"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:gravity="center"
+        android:textColor="@color/darkBlue"
+        android:layout_marginTop="50dp"
+        />
+
+    <Button
+        android:id="@+id/btn_start_again"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+android:layout_marginTop="100dp"
+        android:text="Start again"
+        android:gravity="center"
+      android:layout_marginLeft="100dp"
+        android:layout_marginRight="100dp"
+        android:background="@color/white"/>
+</LinearLayout>

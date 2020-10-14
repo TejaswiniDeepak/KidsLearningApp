@@ -3,6 +3,7 @@ package com.example.kidsapp
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -21,7 +22,9 @@ class MainActivity : AppCompatActivity() {
             {
 
                 var intent=Intent(this,QuestionsActivity::class.java)
-                intent.putExtra(Constants.USERNAME,et_name.text)
+                Constants.USERNAME=et_name.text.toString()
+                //intent.putExtra(Constants.USERNAME,et_name.text.toString())
+                Log.i("MainUser","${Constants.USERNAME}")
                 startActivity(intent)
                 finish()
             }

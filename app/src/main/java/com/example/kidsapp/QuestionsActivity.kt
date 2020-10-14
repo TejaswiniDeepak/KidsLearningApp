@@ -26,7 +26,8 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
 
         musername=intent.getStringExtra(Constants.USERNAME)
        mQuestionList= Constants.getQuestions()
-        Log.i("size","${mQuestionList!!.size}")
+   Constants.TOTALQUESTIONS=mQuestionList!!.size.toString()
+
 
         option1.setOnClickListener(this)
         option2.setOnClickListener(this)
