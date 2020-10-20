@@ -10,7 +10,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_questions.*
 
-class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
+class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
     private var mQuestionList:ArrayList<Question>?=null
     private var musername: String?=null
     private var index:Int=1
@@ -59,10 +59,11 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
             }
             R.id.option4 -> {
                 originalView()
-
+                
                 optionClicked(option4, 4)
                // Toast.makeText(this, "option4 clicked", Toast.LENGTH_SHORT).show()
             }
+
             R.id.btn_submit -> {
                 if (mSelectedOption == 0) {
                     originalView()
@@ -73,7 +74,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener {
                         Log.i("resu","$numberOfCorrectAnswers")
                     }
                     else{
-                        var Result:Int=0
+                        var Result=0
                         var intent=Intent(this,ResultActivity::class.java)
                         Constants.CORRECTANSWER=numberOfCorrectAnswers.toString()
                       // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
