@@ -74,7 +74,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
                         Log.i("resu","$numberOfCorrectAnswers")
                     }
                     else{
-                        var Result=0
+                        var Result=0.0
                         var intent=Intent(this,ResultActivity::class.java)
                         Constants.CORRECTANSWER=numberOfCorrectAnswers.toString()
                       // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
