@@ -8,7 +8,7 @@ import android.database.sqlite.SQLiteOpenHelper
 class Database(context:Context,factory:SQLiteDatabase.CursorFactory?):SQLiteOpenHelper(context,
     DATABASE_NAME,null, DATABASE_VERSION) {
     companion object{
-        private const val DATABASE_NAME="updatedQuiz"
+        private const val DATABASE_NAME="updatedQuizImage"
         private const val DATABASE_VERSION=1
         private const val TABLE_QUESTION="Questions"
         private const val KEY_ID="id"
@@ -18,11 +18,13 @@ class Database(context:Context,factory:SQLiteDatabase.CursorFactory?):SQLiteOpen
         private const val KEY_OPTION3="option3"
         private const val KEY_OPTION4="option4"
         private const val KEY_CORRECT_OPTION="answer"
+        private const val KEY_IMAGE="image"
 
     }
     override fun onCreate(p0: SQLiteDatabase?) {
         val table=("CREATE TABLE " + TABLE_QUESTION + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_QUESTION + " TEXT, "
+                + KEY_IMAGE + " BLOB, "
                 + KEY_OPTION1 + " TEXT, "
                 + KEY_OPTION2 + " TEXT, "
                 + KEY_OPTION3 + " TEXT, "
@@ -45,6 +47,7 @@ class Database(context:Context,factory:SQLiteDatabase.CursorFactory?):SQLiteOpen
         val contentValues= ContentValues()
         //contentValues.put(KEY_ID,happyPlace.id)
         contentValues.put(KEY_QUESTION, question.question)
+        contentValues.put(KEY_IMAGE,question.image)
         contentValues.put(KEY_OPTION1,question.optionOne)
         contentValues.put(KEY_OPTION2,question.optionTwo)
         contentValues.put(KEY_OPTION3,question.optionThree)

@@ -1,10 +1,11 @@
 package com.example.kidsapp
 
-data class Question
-    (
+import android.widget.ImageView
+
+data class Question(
     //val id:Int,
     val question:String,
-    //val image:Int,
+    val image: ImageView,
     val optionOne:String,
     val optionTwo:String,
     val optionThree:String,
