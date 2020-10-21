@@ -35,5 +35,12 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
+        btn_add_question.setOnClickListener()
+        {
+            var intent=Intent(this,Add_Question::class.java)
+            startActivity(intent)
+            finish()
+
+        }
     }
 }

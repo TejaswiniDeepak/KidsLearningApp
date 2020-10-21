@@ -25,7 +25,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
         setContentView(R.layout.activity_questions)
 
         musername=intent.getStringExtra(Constants.USERNAME)
-       mQuestionList= Constants.getQuestions()
+       //mQuestionList= Constants.getQuestions()
    Constants.TOTALQUESTIONS=mQuestionList!!.size.toString()
 
 
@@ -170,12 +170,12 @@ when(selectedOption)
     fun setQuestion()
     {
         var Question=mQuestionList!![index-1]
-        animal_image.setImageResource(Question.image)
+        //animal_image.setImageResource(Question.image)
         option1.text= Question.optionOne
         option2.text= Question.optionTwo
         option3.text= Question.optionThree
         option4.text= Question.optionFour
-        mCorrectOption=Question.correctAnswer
+        //mCorrectOption=Question.correctAnswer
 
     }
 
