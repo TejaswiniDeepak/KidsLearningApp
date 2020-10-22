@@ -1,12 +1,12 @@
 package com.example.kidsapp
 
 import android.content.Intent
+import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import android.widget.Button
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_questions.*
 
@@ -21,13 +21,16 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
+
+        val dbHandler= Database(this,null)
+
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
 
         musername=intent.getStringExtra(Constants.USERNAME)
-       //mQuestionList= Constants.getQuestions()
-   Constants.TOTALQUESTIONS=mQuestionList!!.size.toString()
-
+       mQuestionList= dbHandler.getQuestions()
+   Constants.TOTALQUESTIONS=dbHandler.getProfilesCount().toString()
+        Log.i("total questions","${Constants.TOTALQUESTIONS}")
 
         option1.setOnClickListener(this)
         option2.setOnClickListener(this)
@@ -44,40 +47,39 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
             R.id.option1 -> {
                 originalView()
                 optionClicked(option1, 1)
-               // Toast.makeText(this, "option1 clicked", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this, "option1 clicked", Toast.LENGTH_SHORT).show()
             }
 
             R.id.option2 -> {
                 originalView()
                 optionClicked(option2, 2)
-           //     Toast.makeText(this, "option2 clicked", Toast.LENGTH_SHORT).show()
+                //     Toast.makeText(this, "option2 clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.option3 -> {
                 originalView()
                 optionClicked(option3, 3)
-             //   Toast.makeText(this, "option3 clicked", Toast.LENGTH_SHORT).show()
+                //   Toast.makeText(this, "option3 clicked", Toast.LENGTH_SHORT).show()
             }
             R.id.option4 -> {
                 originalView()
-                
+
                 optionClicked(option4, 4)
-               // Toast.makeText(this, "option4 clicked", Toast.LENGTH_SHORT).show()
+                // Toast.makeText(this, "option4 clicked", Toast.LENGTH_SHORT).show()
             }
 
             R.id.btn_submit -> {
                 if (mSelectedOption == 0) {
                     originalView()
                     index++
-                    if(index<=mQuestionList!!.size) {
+                    if (index <= mQuestionList!!.size) {
                         setQuestion()
-                        btn_submit.text="Submit"
-                        Log.i("resu","$numberOfCorrectAnswers")
-                    }
-                    else{
-                        var Result=0.0
-                        var intent=Intent(this,ResultActivity::class.java)
-                        Constants.CORRECTANSWER=numberOfCorrectAnswers.toString()
-                      // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
+                        btn_submit.text = "Submit"
+                        Log.i("resu", "$numberOfCorrectAnswers")
+                    } else {
+                        var Result = 0.0
+                        var intent = Intent(this, ResultActivity::class.java)
+                        Constants.CORRECTANSWER = numberOfCorrectAnswers.toString()
+                        // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
                         startActivity(intent)
                         finish()
 
@@ -95,30 +97,25 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
                     }
 
                      **/
-                }
-                    else {
+                } else {
                     if (mSelectedOption == mCorrectOption) {
                         correctAnswerView(mSelectedOption)
                         numberOfCorrectAnswers++
-                        QuestionCompleted=true
+                        QuestionCompleted = true
 
 
                     } else {
                         wrongAnswerView(mSelectedOption)
                         correctAnswerView(mCorrectOption)
-                        QuestionCompleted=true
+                        QuestionCompleted = true
                     }
                     mSelectedOption = 0
-                    if(index==mQuestionList!!.size)
-                    {
-                        btn_submit.text="finish"
-                    }
-                    else
-                    {
-                        btn_submit.text="next"
+                    if (index == mQuestionList!!.size) {
+                        btn_submit.text = "finish"
+                    } else {
+                        btn_submit.text = "next"
                     }
                 }
-
 
 
             }
@@ -127,7 +124,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
     }
 
 
-    fun optionClicked(btn:Button,selectedOption:Int)
+    fun optionClicked(btn: Button, selectedOption: Int)
     {
       mSelectedOption=selectedOption
 
@@ -151,26 +148,30 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
     {
 when(selectedOption)
 {
-    1->option1.setBackgroundColor(Color.parseColor("#8CEC73"))
-    2->option2.setBackgroundColor(Color.parseColor("#8CEC73"))
-    3->option3.setBackgroundColor(Color.parseColor("#8CEC73"))
-    4->option4.setBackgroundColor(Color.parseColor("#8CEC73"))
+    1 -> option1.setBackgroundColor(Color.parseColor("#8CEC73"))
+    2 -> option2.setBackgroundColor(Color.parseColor("#8CEC73"))
+    3 -> option3.setBackgroundColor(Color.parseColor("#8CEC73"))
+    4 -> option4.setBackgroundColor(Color.parseColor("#8CEC73"))
 }
     }
     fun wrongAnswerView(selectedOption: Int)
     {
         when(selectedOption)
         {
-            1->option1.setBackgroundColor(Color.parseColor("#E1516E"))
-            2->option2.setBackgroundColor(Color.parseColor("#E1516E"))
-            3->option3.setBackgroundColor(Color.parseColor("#E1516E"))
-            4->option4.setBackgroundColor(Color.parseColor("#E1516E"))
+            1 -> option1.setBackgroundColor(Color.parseColor("#E1516E"))
+            2 -> option2.setBackgroundColor(Color.parseColor("#E1516E"))
+            3 -> option3.setBackgroundColor(Color.parseColor("#E1516E"))
+            4 -> option4.setBackgroundColor(Color.parseColor("#E1516E"))
         }
     }
     fun setQuestion()
+
     {
-        var Question=mQuestionList!![index-1]
-        //animal_image.setImageResource(Question.image)
+        var dbHelper=Database(this,null)
+        var Question=mQuestionList!![index - 1]
+        val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
+
+        animal_image.setImageBitmap(bitmap)
         option1.text= Question.optionOne
         option2.text= Question.optionTwo
         option3.text= Question.optionThree

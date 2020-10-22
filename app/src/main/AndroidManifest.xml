@@ -3,10 +3,7 @@
     package="com.example.kidsapp">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
-
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -15,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Add_Question"></activity>
+        <activity android:name=".sho_image"></activity>
+        <activity android:name=".Add_Question" />
         <activity android:name=".AddQuestions" />
         <activity android:name=".ResultActivity" />
         <activity android:name=".QuestionsActivity" />

@@ -42,5 +42,10 @@ class MainActivity : AppCompatActivity() {
             finish()
 
         }
+        show_image.setOnClickListener()
+        {
+            startActivity((Intent(this,sho_image::class.java)))
+
+        }
     }
 }
