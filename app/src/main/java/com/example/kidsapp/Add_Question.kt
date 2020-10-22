@@ -1,7 +1,10 @@
 package com.example.kidsapp
 
 import android.app.Activity
+import android.content.Context
+import android.content.ContextWrapper
 import android.content.Intent
+import android.graphics.Bitmap
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -9,7 +12,11 @@ import android.provider.MediaStore
 import android.util.Log
 import android.widget.Toast
 import kotlinx.android.synthetic.main.activity_add__question.*
+import java.io.File
+import java.io.FileOutputStream
 import java.io.IOException
+import java.io.OutputStream
+import java.util.*
 
 class Add_Question : AppCompatActivity() {
     private var saveImageToInternalStorage: Uri?=null
@@ -21,7 +28,7 @@ class Add_Question : AppCompatActivity() {
 
   btn_add_image.setOnClickListener()
   {
-        val intent=Intent(Intent.ACTION_PICK)
+        val intent=Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
       intent.type="image/*"
       startActivityForResult(intent,REQUEST_CODE)
   }
@@ -52,19 +59,23 @@ class Add_Question : AppCompatActivity() {
     }
     public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if(requestCode==Activity.RESULT_OK && resultCode==REQUEST_CODE)
-            if(data!=null)
-            {
-                val contentURI=data.data
-                try{
-                    val selectedImageBitmap=
-                        MediaStore.Images.Media.getBitmap(this.contentResolver,contentURI)
+        if(resultCode==Activity.RESULT_OK && requestCode== REQUEST_CODE) {
+            if (data != null) {
+                val contentURI = data.data
+                try {
+                    val selectedImageBitmap =
+                        MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
+                    // saveImageToInternalStorage= saveImageToInternalStorage(selectedImageBitmap)
+                    //Log.e("Saved image","Path::$saveImageToInternalStorage")
                     image_selected.setImageBitmap(selectedImageBitmap)
-                }catch (e: IOException)
-                {
+                } catch (e: IOException) {
                     e.printStackTrace()
-                    Toast.makeText(this,"Failed to load image from gallery",Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "Failed to load image from gallery", Toast.LENGTH_SHORT)
+                        .show()
                 }
             }
+        }
     }
+
+
 }

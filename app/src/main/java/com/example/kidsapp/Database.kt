@@ -47,7 +47,7 @@ class Database(context:Context,factory:SQLiteDatabase.CursorFactory?):SQLiteOpen
         val contentValues= ContentValues()
         //contentValues.put(KEY_ID,happyPlace.id)
         contentValues.put(KEY_QUESTION, question.question)
-        contentValues.put(KEY_IMAGE,question.image)
+        //contentValues.put(KEY_IMAGE,question.image)
         contentValues.put(KEY_OPTION1,question.optionOne)
         contentValues.put(KEY_OPTION2,question.optionTwo)
         contentValues.put(KEY_OPTION3,question.optionThree)
