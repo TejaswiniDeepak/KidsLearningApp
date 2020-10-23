@@ -1,36 +1,41 @@
 package com.example.kidsapp
 
 import android.content.Intent
-import android.database.sqlite.SQLiteDatabase
 import android.graphics.Color
 import android.os.Bundle
+import android.speech.tts.TextToSpeech
 import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_questions.*
+import java.util.*
+import kotlin.collections.ArrayList
 
-class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
-    private var mQuestionList:ArrayList<Question>?=null
+
+class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech.OnInitListener{
+    private var mQuestionList: Question? =null
     private var musername: String?=null
     private var index:Int=1
     private var mCorrectOption:Int=1
     private var mSelectedOption:Int=0
     private var QuestionCompleted:Boolean=false
     private var numberOfCorrectAnswers:Int=0
+    private var tts:TextToSpeech?=null
+    private var questionNumber:Int=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
 
-        val dbHandler= Database(this,null)
+        val dbHandler= Database(this, null)
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_questions)
 
         musername=intent.getStringExtra(Constants.USERNAME)
-       mQuestionList= dbHandler.getQuestions()
-   Constants.TOTALQUESTIONS=dbHandler.getProfilesCount().toString()
-        Log.i("total questions","${Constants.TOTALQUESTIONS}")
+       mQuestionList= dbHandler.getQuestions(questionNumber)
+   //Constants.TOTALQUESTIONS=dbHandler.getProfilesCount()
+        tts= TextToSpeech(this,this)
 
         option1.setOnClickListener(this)
         option2.setOnClickListener(this)
@@ -71,14 +76,14 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
                 if (mSelectedOption == 0) {
                     originalView()
                     index++
-                    if (index <= mQuestionList!!.size) {
+                    if (index <Constants.TOTALQUESTIONS) {
                         setQuestion()
                         btn_submit.text = "Submit"
                         Log.i("resu", "$numberOfCorrectAnswers")
                     } else {
                         var Result = 0.0
                         var intent = Intent(this, ResultActivity::class.java)
-                        Constants.CORRECTANSWER = numberOfCorrectAnswers.toString()
+                        Constants.CORRECTANSWER = numberOfCorrectAnswers
                         // intent.putExtra(Constants.CORRECTANSWER,numberOfCorrectAnswers)
                         startActivity(intent)
                         finish()
@@ -99,6 +104,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
                      **/
                 } else {
                     if (mSelectedOption == mCorrectOption) {
+                        tts!!.speak("correct",TextToSpeech.QUEUE_FLUSH,null,"")
                         correctAnswerView(mSelectedOption)
                         numberOfCorrectAnswers++
                         QuestionCompleted = true
@@ -106,11 +112,12 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
 
                     } else {
                         wrongAnswerView(mSelectedOption)
+                        tts!!.speak("wrong",TextToSpeech.QUEUE_FLUSH,null,"")
                         correctAnswerView(mCorrectOption)
                         QuestionCompleted = true
                     }
                     mSelectedOption = 0
-                    if (index == mQuestionList!!.size) {
+                    if (index == Constants.TOTALQUESTIONS-1) {
                         btn_submit.text = "finish"
                     } else {
                         btn_submit.text = "next"
@@ -146,6 +153,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener{
     }
     fun correctAnswerView(selectedOption: Int)
     {
+        //tts!!.speak("correct",TextToSpeech.QUEUE_ADD,null,"")
 when(selectedOption)
 {
     1 -> option1.setBackgroundColor(Color.parseColor("#8CEC73"))
@@ -156,6 +164,7 @@ when(selectedOption)
     }
     fun wrongAnswerView(selectedOption: Int)
     {
+
         when(selectedOption)
         {
             1 -> option1.setBackgroundColor(Color.parseColor("#E1516E"))
@@ -167,16 +176,40 @@ when(selectedOption)
     fun setQuestion()
 
     {
-        var dbHelper=Database(this,null)
-        var Question=mQuestionList!![index - 1]
-        val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
+       // var dbHelper=Database(this, null)q
+        val dbHandler= Database(this, null)
 
+        questionNumber++
+        mQuestionList= dbHandler.getQuestions(questionNumber)
+        //mQuestionList.add()
+        //var Question=mQuestionList!![index - 1]
+        val bitmap=utils.getImage(dbHandler.getBitMapByName(index)!!)
+
+        tv_question.text=mQuestionList!!.question
         animal_image.setImageBitmap(bitmap)
-        option1.text= Question.optionOne
-        option2.text= Question.optionTwo
-        option3.text= Question.optionThree
-        option4.text= Question.optionFour
+        option1.text= mQuestionList!!.optionOne
+        option2.text= mQuestionList!!.optionTwo
+        option3.text= mQuestionList!!.optionThree
+        option4.text=mQuestionList!!.optionFour
         //mCorrectOption=Question.correctAnswer
+
+    }
+
+    override fun onInit(p0: Int){
+            //TODO("Not yet implemented")
+            if(p0==TextToSpeech.SUCCESS) {
+                val result = tts!!.setLanguage(Locale.US)
+
+                if(result==TextToSpeech.LANG_MISSING_DATA||result==TextToSpeech.LANG_NOT_SUPPORTED)
+                {
+                    Log.e("TTS","The language specified is not supported")
+                    //Toast.makeText(this@ExceriseActivity,"Not SUpported",Toast.LENGTH_SHORT).show()
+                }
+                else {
+                    Log.e("TTS","Initialisation Failed")
+                    //Toast.makeText(this@ExceriseActivity,"NOt initialised",Toast.LENGTH_SHORT).show()
+                }
+            }
 
     }
 

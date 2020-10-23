@@ -11,9 +11,10 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
         <TextView
+            android:id="@+id/tv_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-          android:text="Identify the animals"
+          android:text="Question "
             android:layout_gravity="center"
             android:gravity="center"
             android:textSize="30dp"

@@ -26,6 +26,7 @@ class Add_Question : AppCompatActivity() {
 
     private var saveImageToInternalStorage:Uri?=null
     var REQUEST_CODE=101
+    //var dbHandler=Database(this,null)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,8 +41,20 @@ class Add_Question : AppCompatActivity() {
 
 
         btn_submit_question.setOnClickListener()
+
         {
-            insertQuestionToDatabase()
+            if (et_question.text.toString().isEmpty() || image_selected.getDrawable()== null ||
+                et_option1.text.toString().isEmpty()||et_option2.text.toString().isEmpty()||et_option3.text.toString().isEmpty()
+                ||et_option4.text.toString().isEmpty()||et_corretct_option.text.toString().isEmpty()) {
+
+                Toast.makeText(this, "please fill in all the details", Toast.LENGTH_SHORT).show()
+            }
+else {
+                insertQuestionToDatabase()
+
+                startActivity(Intent(this, MainActivity::class.java))
+            }
+
         }
 
     }

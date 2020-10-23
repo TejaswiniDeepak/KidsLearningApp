@@ -14,6 +14,10 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        var dbHandler=Database(this,null)
+        Constants.TOTALQUESTIONS=dbHandler.getProfilesCount()
+
+        Log.i("total questions","${Constants.TOTALQUESTIONS}")
 
 
         btn_start.setOnClickListener()
@@ -23,6 +27,10 @@ class MainActivity : AppCompatActivity() {
                 Toast.makeText(this,"Please Enter the name",Toast.LENGTH_SHORT).show()
 
 
+            }
+            else if(Constants.TOTALQUESTIONS==0)
+            {
+                Toast.makeText(this,"please Add Questions before starting quiz",Toast.LENGTH_SHORT).show()
             }
             else
             {
@@ -35,17 +43,13 @@ class MainActivity : AppCompatActivity() {
                 finish()
             }
         }
-        btn_add_question.setOnClickListener()
+      btn_add_question.setOnClickListener()
         {
             var intent=Intent(this,Add_Question::class.java)
             startActivity(intent)
             finish()
 
         }
-        show_image.setOnClickListener()
-        {
-            startActivity((Intent(this,sho_image::class.java)))
 
-        }
     }
 }

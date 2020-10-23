@@ -2,8 +2,8 @@ package com.example.kidsapp
 
 object Constants {
 var USERNAME:String="user_name"
-   var TOTALQUESTIONS:String="total_questions"
-   var CORRECTANSWER:String="0"
+   var TOTALQUESTIONS:Int=0
+   var CORRECTANSWER:Int=0
 
    /**fun getQuestions():ArrayList<Question>
    {
