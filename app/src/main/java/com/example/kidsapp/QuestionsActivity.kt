@@ -14,7 +14,7 @@ import kotlin.collections.ArrayList
 
 
 class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech.OnInitListener{
-    private var mQuestionList: Question? =null
+    private var mQuestionList:ArrayList<Question>?=null
     private var musername: String?=null
     private var index:Int=1
     private var mCorrectOption:Int=1
@@ -22,7 +22,6 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
     private var QuestionCompleted:Boolean=false
     private var numberOfCorrectAnswers:Int=0
     private var tts:TextToSpeech?=null
-    private var questionNumber:Int=1
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -33,7 +32,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
         setContentView(R.layout.activity_questions)
 
         musername=intent.getStringExtra(Constants.USERNAME)
-       mQuestionList= dbHandler.getQuestions(questionNumber)
+       mQuestionList= dbHandler.getQuestions()
    //Constants.TOTALQUESTIONS=dbHandler.getProfilesCount()
         tts= TextToSpeech(this,this)
 
@@ -76,7 +75,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
                 if (mSelectedOption == 0) {
                     originalView()
                     index++
-                    if (index <Constants.TOTALQUESTIONS) {
+                    if (index <= mQuestionList!!.size) {
                         setQuestion()
                         btn_submit.text = "Submit"
                         Log.i("resu", "$numberOfCorrectAnswers")
@@ -117,7 +116,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
                         QuestionCompleted = true
                     }
                     mSelectedOption = 0
-                    if (index == Constants.TOTALQUESTIONS-1) {
+                    if (index == mQuestionList!!.size) {
                         btn_submit.text = "finish"
                     } else {
                         btn_submit.text = "next"
@@ -176,21 +175,16 @@ when(selectedOption)
     fun setQuestion()
 
     {
-       // var dbHelper=Database(this, null)q
-        val dbHandler= Database(this, null)
+        var dbHelper=Database(this, null)
+        var Question=mQuestionList!![index - 1]
+        val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
 
-        questionNumber++
-        mQuestionList= dbHandler.getQuestions(questionNumber)
-        //mQuestionList.add()
-        //var Question=mQuestionList!![index - 1]
-        val bitmap=utils.getImage(dbHandler.getBitMapByName(index)!!)
-
-        tv_question.text=mQuestionList!!.question
+        tv_question.text=Question.question
         animal_image.setImageBitmap(bitmap)
-        option1.text= mQuestionList!!.optionOne
-        option2.text= mQuestionList!!.optionTwo
-        option3.text= mQuestionList!!.optionThree
-        option4.text=mQuestionList!!.optionFour
+        option1.text= Question.optionOne
+        option2.text= Question.optionTwo
+        option3.text= Question.optionThree
+        option4.text= Question.optionFour
         //mCorrectOption=Question.correctAnswer
 
     }

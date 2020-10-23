@@ -26,7 +26,6 @@ class Database(context: Context, factory: SQLiteDatabase.CursorFactory?):SQLiteO
         private const val KEY_IMAGE="image"
 
     }
-    lateinit var  QuestionList:Question
     override fun onCreate(p0: SQLiteDatabase?) {
         val table=("CREATE TABLE " + TABLE_QUESTION + "(" + KEY_ID + " INTEGER PRIMARY KEY,"
                 + KEY_QUESTION + " TEXT, "
@@ -85,38 +84,38 @@ class Database(context: Context, factory: SQLiteDatabase.CursorFactory?):SQLiteO
         return result
     }
     fun getProfilesCount(): Int {
-       // val countQuery = "SELECT  * FROM $TABLE_QUESTION"
+        val countQuery = "SELECT  * FROM $TABLE_QUESTION"
         val db = this.readableDatabase
-        val cursor = db.rawQuery("SELECT  * FROM $TABLE_QUESTION", null)
+        val cursor: Cursor = db.rawQuery(countQuery, null)
         val count: Int = cursor.getCount()
         cursor.close()
 
         return count
     }
-    fun getQuestions(id:Int):Question
+    fun getQuestions():ArrayList<Question>
     {
         val list=ArrayList<Question>()
         val db=this.readableDatabase
-        val cursor1=db.rawQuery("SELECT *FROM $TABLE_QUESTION WHERE $KEY_ID=id ", null)
+        val cursor=db.rawQuery("SELECT *FROM $TABLE_QUESTION  ", null)
 
-      while(cursor1.moveToNext())
-      {
-            var QuestionFromDatabase:String=cursor1.getString(cursor1.getColumnIndex(KEY_QUESTION))
-            var Option1FromDatabase:String=cursor1.getString(cursor1.getColumnIndex(KEY_OPTION1))
-            var Option2FromDatabase:String=cursor1.getString(cursor1.getColumnIndex(KEY_OPTION2))
-            var Option3FromDatabase:String=cursor1.getString(cursor1.getColumnIndex(KEY_OPTION3))
-            var Option4FromDatabase:String=cursor1.getString(cursor1.getColumnIndex(KEY_OPTION4))
-            var CorrectAnswerFromDatabase:String=cursor1.getString(cursor1.getColumnIndex(
+        while(cursor.moveToNext())
+        {
+            var QuestionFromDatabase:String=cursor.getString(cursor.getColumnIndex(KEY_QUESTION))
+            var Option1FromDatabase:String=cursor.getString(cursor.getColumnIndex(KEY_OPTION1))
+            var Option2FromDatabase:String=cursor.getString(cursor.getColumnIndex(KEY_OPTION2))
+            var Option3FromDatabase:String=cursor.getString(cursor.getColumnIndex(KEY_OPTION3))
+           var Option4FromDatabase:String=cursor.getString(cursor.getColumnIndex(KEY_OPTION4))
+            var CorrectAnswerFromDatabase:String=cursor.getString(cursor.getColumnIndex(
                 KEY_CORRECT_OPTION))
-            var ImageFromDatabase=cursor1.getBlob(cursor1.getColumnIndex(KEY_IMAGE))
-
-               QuestionList=Question(QuestionFromDatabase,ImageFromDatabase,Option1FromDatabase,
+            var ImageFromDatabase=cursor.getBlob(cursor.getColumnIndex(KEY_IMAGE))
+           var  QuestionList:Question=
+               Question(QuestionFromDatabase,ImageFromDatabase,Option1FromDatabase,
                Option2FromDatabase,Option3FromDatabase,Option4FromDatabase,
             CorrectAnswerFromDatabase)
-            //list.add(QuestionList)
+            list.add(QuestionList)
 
-       }
-        cursor1.close()
-        return QuestionList
+        }
+        cursor.close()
+        return list
     }
 }
