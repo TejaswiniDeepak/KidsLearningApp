@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Path
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
@@ -22,6 +23,7 @@ import java.util.*
 class Add_Question : AppCompatActivity() {
     companion object{
         private const val IMAGE_DIRECTORY="SelectedImages"
+        private var PATH="xyz"
     }
 
     private var saveImageToInternalStorage:Uri?=null
@@ -63,7 +65,8 @@ else {
 
         val bitmap=(image_selected.drawable as BitmapDrawable).bitmap
         var imageInBytes=utils.getBytes(bitmap)
-        val insert_question=Question(et_question.text.toString(),imageInBytes,et_option1.text.toString(),et_option2.text.toString(),
+        val insert_question=Question(et_question.text.toString(),
+            PATH,et_option1.text.toString(),et_option2.text.toString(),
             et_option3.text.toString(),et_option4.text.toString(),et_corretct_option.text.toString())
         //Log.i("question","$insert_question")
         //Log.i("ques","${et_question.text.toString()}")
@@ -84,17 +87,21 @@ else {
             if (data != null) {
                 val contentURI = data.data
                 image_selected.setImageURI(contentURI)
-              /**  try {
+              try {
                     val selectedImageBitmap =
                         MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                      saveImageToInternalStorage= saveImageToInternalStorage(selectedImageBitmap)
                     Log.e("Saved image","Path::$saveImageToInternalStorage")
+                  PATH="$saveImageToInternalStorage"
+                  Log.e("Saved image","$PATH")
+
+
                     image_selected.setImageBitmap(selectedImageBitmap)
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(this, "Failed to load image from gallery", Toast.LENGTH_SHORT)
                         .show()
-                }**/
+                }
             }
         }
     }

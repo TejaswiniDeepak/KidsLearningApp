@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_questions.*
 import java.util.*
 import kotlin.collections.ArrayList
@@ -177,10 +178,12 @@ when(selectedOption)
     {
         var dbHelper=Database(this, null)
         var Question=mQuestionList!![index - 1]
-        val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
+        //val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
 
         tv_question.text=Question.question
-        animal_image.setImageBitmap(bitmap)
+        Glide.with(this).load(Question.imagePath).into(animal_image)
+
+
         option1.text= Question.optionOne
         option2.text= Question.optionTwo
         option3.text= Question.optionThree

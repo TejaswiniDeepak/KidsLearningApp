@@ -5,7 +5,7 @@ import android.widget.ImageView
 data class Question(
     //val id:Int,
     var question:String,
-    val image: ByteArray,
+    val imagePath:String,
     val optionOne:String,
     val optionTwo:String,
     val optionThree:String,
