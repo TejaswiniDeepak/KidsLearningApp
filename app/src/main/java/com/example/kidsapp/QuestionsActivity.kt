@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import kotlinx.android.synthetic.main.activity_questions.*
 import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.random.Random.Default.nextInt
 
 
 class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech.OnInitListener{
@@ -177,20 +178,52 @@ when(selectedOption)
 
     {
         var dbHelper=Database(this, null)
-        var Question=mQuestionList!![index - 1]
-        //val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
-
+        var Question=mQuestionList!![index-1]
         tv_question.text=Question.question
         Glide.with(this).load(Question.imagePath).into(animal_image)
-
-
         option1.text= Question.optionOne
         option2.text= Question.optionTwo
         option3.text= Question.optionThree
         option4.text= Question.optionFour
+     /**   var alreadyDisplayedQuestions=ArrayList<Int>()
+        var randomNumber=nextInt(1,Constants.TOTALQUESTIONS+1)
+        var i=0
+        alreadyDisplayedQuestions.add(randomNumber)
+        Log.i("random number","$randomNumber")
+        var arrayListSize=alreadyDisplayedQuestions.size
+        for(i in 0 until arrayListSize-1)
+        {
+            if(randomNumber==alreadyDisplayedQuestions[i]) {
+                randomNumber = nextInt(1, Constants.TOTALQUESTIONS + 1)
+            }
+            else
+            {
+                var Question=mQuestionList!![randomNumber-1]
+
+                tv_question.text=Question.question
+                Glide.with(this).load(Question.imagePath).into(animal_image)
+                option1.text= Question.optionOne
+                option2.text= Question.optionTwo
+                option3.text= Question.optionThree
+                option4.text= Question.optionFour
+            }**/
+
+
+        }
+        /**var Question=mQuestionList!![randomNumber-1]
+        alreadyDisplayedQuestions.add(randomNumber)
+
+            for(i in 0..arrayListSize-1) {
+                if (randomNumber == alreadyDisplayedQuestions[i]) {
+
+                }
+            }**/
+        //val bitmap=utils.getImage(dbHelper.getBitMapByName(index)!!)
+
+
         //mCorrectOption=Question.correctAnswer
 
-    }
+  //  }
 
     override fun onInit(p0: Int){
             //TODO("Not yet implemented")
@@ -209,5 +242,6 @@ when(selectedOption)
             }
 
     }
+
 
 }
