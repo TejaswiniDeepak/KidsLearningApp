@@ -24,6 +24,7 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
     private var QuestionCompleted:Boolean=false
     private var numberOfCorrectAnswers:Int=0
     private var tts:TextToSpeech?=null
+    lateinit var shuffledArray:ArrayList<Question>
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -35,7 +36,9 @@ class QuestionsActivity : AppCompatActivity(),View.OnClickListener, TextToSpeech
 
         musername=intent.getStringExtra(Constants.USERNAME)
        mQuestionList= dbHandler.getQuestions()
+         shuffledArray=shuffleArray(mQuestionList)
    //Constants.TOTALQUESTIONS=dbHandler.getProfilesCount()
+        Log.i("onCreateShuffled","$shuffledArray")
         tts= TextToSpeech(this,this)
 
         option1.setOnClickListener(this)
@@ -177,14 +180,18 @@ when(selectedOption)
     fun setQuestion()
 
     {
+
         var dbHelper=Database(this, null)
-        var Question=mQuestionList!![index-1]
-        tv_question.text=Question.question
-        Glide.with(this).load(Question.imagePath).into(animal_image)
-        option1.text= Question.optionOne
-        option2.text= Question.optionTwo
-        option3.text= Question.optionThree
-        option4.text= Question.optionFour
+
+        var Question= shuffledArray[index-1]
+        Log.i("Question1","$Question")
+ //shuffledArray?.removeAt(index-1)
+        tv_question.text=Question?.question
+        Glide.with(this).load(Question?.imagePath).into(animal_image)
+        option1.text= Question?.optionOne
+        option2.text= Question?.optionTwo
+        option3.text= Question?.optionThree
+        option4.text= Question?.optionFour
      /**   var alreadyDisplayedQuestions=ArrayList<Int>()
         var randomNumber=nextInt(1,Constants.TOTALQUESTIONS+1)
         var i=0
@@ -242,6 +249,18 @@ when(selectedOption)
             }
 
     }
+    fun shuffleArray(QuestionList:ArrayList<Question>?):ArrayList<Question> {
+        val rg: Random = Random()
+        Log.i("QyuestionList","$QuestionList")
+        for (i in 0..QuestionList!!.size - 1) {
+            val randomPosition = rg.nextInt(QuestionList.size)
+            val tmp = QuestionList[i]
+            QuestionList[i] = QuestionList[randomPosition]
+            QuestionList[randomPosition] = tmp
+        }
 
+        Log.i("ShuffldList","$QuestionList")
+        return QuestionList
+    }
 
 }
